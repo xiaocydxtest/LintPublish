@@ -23,3 +23,5 @@ dependencyResolutionManagement {
 rootProject.name = "LintPublish"
 include(":app")
 include(":lint")
+include(":library")
+include(":mid")

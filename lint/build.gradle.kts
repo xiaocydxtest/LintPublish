@@ -1,16 +1,7 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
-    id("maven-publish")
-}
-
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "com.github.xiaocydxtest"
-            // afterEvaluate { from(components["release"]) }
-        }
-    }
+    id("com.android.lint")
 }
 
 java {
@@ -18,9 +9,18 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+lint {
+    htmlReport = true
+    htmlOutput = file("lint-report.html")
+    textReport = true
+    absolutePaths = false
+    ignoreTestSources = true
+}
+
 dependencies {
     val lintVersion = "30.0.0"
-    compileOnly("com.android.tools.lint:lint-api:$lintVersion")
-    compileOnly("com.android.tools.lint:lint-checks:$lintVersion")
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.9.20")
+    compileOnly("com.android.tools.lint:lint-api:${lintVersion}")
+    // compileOnly("com.android.tools.lint:lint-checks:$lintVersion")
     testImplementation("com.android.tools.lint:lint-tests:$lintVersion")
 }
