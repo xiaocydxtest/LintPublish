@@ -8,7 +8,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 21
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -31,5 +31,5 @@ android {
 
 dependencies {
     // api(project(":library"))
-    api("com.github.xiaocydxtest.LintPublish:library:1.0.4")
+    api("com.github.xiaocydxtest.LintPublish:library:1.0.6")
 }
