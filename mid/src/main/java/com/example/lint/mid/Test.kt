@@ -1,6 +1,7 @@
 package com.example.lint.mid
 
 import android.view.View
+import com.example.lint.library.LintTest
 
 /**
  * @author xcc
@@ -9,6 +10,7 @@ import android.view.View
 class Test {
 
     fun run(view: View) {
+        LintTest
         view.fitsSystemWindows = true
     }
 }

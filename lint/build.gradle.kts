@@ -2,15 +2,6 @@ plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
     id("com.android.lint")
-    id("maven-publish")
-}
-
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "com.github.xiaocydxtest"
-        }
-    }
 }
 
 java {

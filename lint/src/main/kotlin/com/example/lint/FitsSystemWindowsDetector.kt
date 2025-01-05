@@ -44,7 +44,7 @@ internal class FitsSystemWindowsDetector : Detector(), UastScanner {
             id = "FitsSystemWindowsId",
             briefDescription = "FitsSystemWindows",
             explanation = """
-                view.fitsSystemWindows = true
+                view.`fitsSystemWindows` = true
                 view.fitsSystemWindows = true
                 """,
             implementation = Implementation(FitsSystemWindowsDetector::class.java, Scope.JAVA_FILE_SCOPE)

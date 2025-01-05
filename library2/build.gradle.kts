@@ -1,10 +1,20 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.github.xiaocydxtest"
+            afterEvaluate { from(components["release"]) }
+        }
+    }
 }
 
 android {
-    namespace = "com.example.lint.mid"
+    namespace = "com.example.library2"
     compileSdk = 34
 
     defaultConfig {
@@ -27,12 +37,14 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
-    // api(project(":library"))
-    implementation("com.github.xiaocydxtest.LintPublish:library:1.0.4")
-    // implementation("com.github.xiaocydxtest.LintPublish:lint:1.0.4")
-    // implementation("com.github.xiaocydxtest.LintPublish:lint:1.0.4")
-    // lintChecks("com.github.xiaocydxtest:LintPublish:lint:1.0.4")
+
 }
