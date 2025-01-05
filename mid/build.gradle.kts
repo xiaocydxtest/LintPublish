@@ -31,5 +31,5 @@ android {
 
 dependencies {
     api(project(":library"))
-    // api("com.github.xiaocydxtest:LintPublish:1.0.2")
+    // implementation("com.github.xiaocydxtest:LintPublish:1.0.3")
 }
