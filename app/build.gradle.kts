@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -33,13 +33,12 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(CommonLibs.`androidx-core-ktx`)
+    implementation(CommonLibs.`androidx-appcompat`)
+    implementation(CommonLibs.`androidx-transition`)
+    implementation(CommonLibs.`androidx-constraintlayout`)
+    implementation(CommonLibs.material)
+    // 怎么依赖传递？
+    // 怎么发布依赖？
+    lintChecks(project(":lint"))
 }
