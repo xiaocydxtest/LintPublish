@@ -31,8 +31,5 @@ android {
 
 dependencies {
     // api(project(":library"))
-    implementation("com.github.xiaocydxtest.LintPublish:library:1.0.4")
-    // implementation("com.github.xiaocydxtest.LintPublish:lint:1.0.4")
-    // implementation("com.github.xiaocydxtest.LintPublish:lint:1.0.4")
-    // lintChecks("com.github.xiaocydxtest:LintPublish:lint:1.0.4")
+    api("com.github.xiaocydxtest.LintPublish:library:1.0.4")
 }
