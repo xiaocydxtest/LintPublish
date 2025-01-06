@@ -42,7 +42,7 @@ internal class FitsSystemWindowsDetector : Detector(), SourceCodeScanner {
         // View.setFitsSystemWindows(fitSystemWindows)的实参为字面量true或者变量
         context.report(
             Incident(context, ISSUE)
-                .message("`fitSystemWindows = true`有版本兼容问题，谨慎使用")
+                .message(" `fitSystemWindows = true` 存在版本兼容问题，需谨慎使用")
                 .at(node)
         )
     }
@@ -50,54 +50,51 @@ internal class FitsSystemWindowsDetector : Detector(), SourceCodeScanner {
     companion object {
         val ISSUE = Issue.create(
             id = "FitsSystemWindows",
-            briefDescription = "FitsSystemWindows",
+            briefDescription = "FitsSystemWindows版本兼容问题",
             explanation = """
-                Android 11以下，`fitSystemWindows = true`会让同级`child2`没有`WindowInsets`分发：
-                ```
-                val child1 = View(context)
-                val child2 = View(context)
-                parent.addView(child1)
-                parent.addView(child2)
                 
-                child1.fitsSystemWindows = true // 消费systemWindowInsets并设置`paddings`
-                ViewCompat.setOnApplyWindowInsetsListener(child2) { v, insets->
-                    // child2的OnApplyWindowInsetsListener不会触发
-                    insets
-                }
+                Android 11以下， `fitSystemWindows = true` 会让其他View没有WindowInsets分发：
                 ```
+                class MainActivity : Activity() {
                 
-                建议用OnApplyWindowInsetsListener代替`fitSystemWindows = true`，\
-                确保同级`child2`有`WindowInsets`分发：
-                ```
-                ViewCompat.setOnApplyWindowInsetsListener(child1) { _, insets->
-                    // 如果只需要系统栏间距，那么就获取systemBars()的数值
-                    val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                    view.setPadding(0, statusBars.top, 0, systemBars.bottom)
-                    insets // 返回传入的insets，不做消费处理
-                }
-                ```
-                
-                问题的原因是`parent`对`child1`分发`insets`，`child1`返回消费结果并赋值给`insets`，
-                使得`insets.isConsumed()`为`true`退出循环，`parent`不会对`child2`分发`insets`：
-                ```
-                // Android 11以下的分发逻辑
-                public abstract class ViewGroup extends View {
-                
-                    @Override
-                    public WindowInsets dispatchApplyWindowInsets(WindowInsets insets) {
-                        insets = super.dispatchApplyWindowInsets(insets);
-                        if (!insets.isConsumed()) {
-                            final int count = getChildCount();
-                            for (int i = 0; i < count; i++) {
-                                 insets = getChildAt(i).dispatchApplyWindowInsets(insets);
-                                 if (insets.isConsumed()) {
-                                    break;
-                                 }
-                            }
-                        }
-                        return insets;
+                    override fun onCreate(savedInstanceState: Bundle?) {
+                        super.onCreate(savedInstanceState)
+                        WindowCompat.setDecorFitsSystemWindows(window, false)
+                        
+                        val child1 = View(this)
+                        val child2 = View(this)
+                        val parent = findViewById<ViewGroup>(android.R.id.content)
+                        parent.addView(child1)
+                        parent.addView(child2)
+                        
+                        // child1消费systemWindowInsets并设置paddings
+                        child1.fitsSystemWindows = true 
+                         
+                        // Android 11以下，child2的OnApplyWindowInsetsListener不会触发
+                        ViewCompat.setOnApplyWindowInsetsListener(child2) { v, insets -> insets }
                     }
                 }
+                ```
+                
+                
+                用 `OnApplyWindowInsetsListener` 代替 `fitSystemWindows = true` ：
+                ```
+                // 只获取需要的数值，比如获取状态栏和导航栏的高度
+                ViewCompat.setOnApplyWindowInsetsListener(child1) { _, insets->
+                    val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                    child1.updatePadding(top = statusBars.top, bottom = systemBars.bottom)
+                    insets // 返回传入的insets，不做消费处理
+                }
+                
+                // Android 11以下，child2的OnApplyWindowInsetsListener正常触发
+                ViewCompat.setOnApplyWindowInsetsListener(child2) { v, insets -> insets }
+                ```
+                
+                
+                如果已依赖 `com.github.xiaocydx.Insets:insets` ，那么代码可以简化为：
+                ```
+                child1.insets().paddings(systemBars())
+                child2.setOnApplyWindowInsetsListenerCompat { v, insets -> insets }
                 ```
                 """,
             implementation = Implementation(FitsSystemWindowsDetector::class.java, Scope.JAVA_FILE_SCOPE)
