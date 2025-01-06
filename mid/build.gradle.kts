@@ -30,6 +30,6 @@ android {
 }
 
 dependencies {
-    // api(project(":library"))
-    api("com.github.xiaocydxtest.LintPublish:library:1.0.6")
+    api(project(":library"))
+    // api("com.github.xiaocydxtest.LintPublish:library:1.0.6")
 }
