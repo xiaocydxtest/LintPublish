@@ -4,15 +4,6 @@ plugins {
     id("maven-publish")
 }
 
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "com.github.xiaocydxtest"
-            afterEvaluate { from(components["release"]) }
-        }
-    }
-}
-
 android {
     namespace = "com.example.lint.library"
     compileSdk = 34
@@ -36,15 +27,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
-    lint {
-        checkDependencies = true
     }
 }
 

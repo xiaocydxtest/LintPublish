@@ -6,6 +6,9 @@ package com.example.lint.library
  */
 object LintTest {
 
+    /**
+     * 太好了
+     */
     fun run() {
 
     }
