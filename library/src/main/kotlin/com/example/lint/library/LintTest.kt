@@ -10,6 +10,6 @@ object LintTest {
      * 太好了
      */
     fun run() {
-
+        println(123)
     }
 }
