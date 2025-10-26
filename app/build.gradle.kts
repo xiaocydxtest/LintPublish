@@ -38,10 +38,7 @@ dependencies {
     implementation(CommonLibs.`androidx-transition`)
     implementation(CommonLibs.`androidx-constraintlayout`)
     implementation(CommonLibs.material)
-    // 怎么依赖传递？
-    // 怎么发布依赖？
-    // lintChecks(project(":lint"))
-    // implementation(project(":library"))
+
     implementation(project(":mid"))
-    // lintPublish("com.github.xiaocydxtest:LintPublish:1.0.0")
+    // lintChecks(project(":lint"))
 }

@@ -18,14 +18,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-lint {
-    htmlReport = true
-    htmlOutput = file("lint-report.html")
-    textReport = true
-    absolutePaths = false
-    ignoreTestSources = true
-}
-
 dependencies {
     val lintVersion = "30.0.0"
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.9.20")
