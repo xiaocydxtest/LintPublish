@@ -42,7 +42,7 @@ internal class FitsSystemWindowsDetector : Detector(), SourceCodeScanner {
         // View.setFitsSystemWindows(fitSystemWindows)的实参为字面量true或者变量
         context.report(
             Incident(context, ISSUE)
-                .message(" `fitSystemWindows = true` [我可是新的东西！！！]存在版本兼容问题，需谨慎使用")
+                .message(" `fitSystemWindows = true` [我又来了！！！]存在版本兼容问题，需谨慎使用")
                 .at(node)
         )
     }
